@@ -6,7 +6,7 @@ import TodoList from "./Components/TodoList";
 
 
 const App = () => {
-    const {todos} = useState([
+    const [todos, setTodos] = useState([
         {
             id: 1,
             text: '리액트의 기초 알아보기',
@@ -24,7 +24,7 @@ const App = () => {
         }
     ]);
 
-    console.log("todos : {}",todos);
+    console.log("todos :",todos);
     return <TodoTemplate>
         <TodoInsert />
         <TodoList todos={todos}/>
