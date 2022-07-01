@@ -1,59 +1,35 @@
-import React from 'react'
+import React from 'react';
+import { useState } from "react";
 import TodoTemplate from "./Components/TodoTemplate";
 import TodoInsert from "./Components/TodoInsert";
 import TodoList from "./Components/TodoList";
-// import LifeCycleSample from "./Test/LifeCycleSample";
-// import ErrorBoundary from "./Test/ErrorBoundary";
-// import Counter2 from "./Test/Counter2";
 
 
 const App = () => {
+    const {todos} = useState([
+        {
+            id: 1,
+            text: '리액트의 기초 알아보기',
+            checked: true
+        },
+        {
+            id: 2,
+            text: '컴포넌트 스타일링 해보기',
+            checked: true
+        },
+        {
+            id: 3,
+            text: '일정 관리 앱 만들어 보기',
+            checked: false
+        }
+    ]);
+
+    console.log("todos : {}",todos);
     return <TodoTemplate>
         <TodoInsert />
-        <TodoList />
+        <TodoList todos={todos}/>
     </TodoTemplate>;
 };
 
-
-{/*
-class App extends Component {
-    render(){
-        return (<Counter2 />);
-    }
-
-};
-
-
-function getRandomColor() {
-  return '#' + Math.floor(Math.random() * 16777215).toString(16);
-}
-
-
-class App extends Component {
-  state={
-    color: '#000000'
-  }
-
-  handleClick= () => {
-    this.setState({
-      color: getRandomColor()
-    });
-  }
-
-  render(){
-    // const {color} = this.props;
-    // console.log('App.jsx : render');
-
-    return (
-        <div>
-          <button onClick={this.handleClick}>랜덤 색상</button>
-          <ErrorBoundary>
-            <LifeCycleSample color={this.state.color} />
-          </ErrorBoundary>
-        </div>
-    );
-  }
-}
-*/}
 export default App;
 
