@@ -4,25 +4,24 @@ import TodoTemplate from "./Components/TodoTemplate";
 import TodoInsert from "./Components/TodoInsert";
 import TodoList from "./Components/TodoList";
 
+function createBulkTodos() {
+    const array = [];
+    for (let i = 1; i <= 2500; i++) {
+        array.push({
+            id: i,
+            checked: false,
+            text: `할 일 ${i}`,
+        });
+    }
+    return array;
+}
+
+
 
 const App = () => {
-    const [todos, setTodos] = useState([
-        {
-            id: 1,
-            text: '리액트의 기초 알아보기',
-            checked: true
-        },
-        {
-            id: 2,
-            text: '컴포넌트 스타일링 해보기',
-            checked: true
-        },
-        {
-            id: 3,
-            text: '일정 관리 앱 만들어 보기',
-            checked: false
-        }
-    ]);
+    // useState(createBulkTodos) => 다수의 데이터를 function으로 생성
+    // createBulkTodos() => re-render될때마다 호출 / createBulkTodos => 처음으로 렌더링 될 때만 호출
+    const [todos, setTodos] = useState(createBulkTodos);
 
     const onRemove = useCallback( id => {
         setTodos(todos.filter(todo => todo.id !== id));
