@@ -1,4 +1,4 @@
-import './TodoListItem.scss';
+import './TodoTemplate.scss';
 import cn from 'classnames';
 import React from 'react';
 import {MdCheckBox, MdCheckBoxOutlineBlank, MdRemoveCircleOutline} from "react-icons/md";
