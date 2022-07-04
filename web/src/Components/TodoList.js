@@ -1,16 +1,33 @@
 import TodoListItem from "./TodoListItem";
 import './TodoTemplate.scss';
-import React from 'react';
+import React, {useCallback} from 'react';
+import {List} from "react-virtualized";
 
 const TodoList = ({todos, onRemove, onToggle}) => {
+    const rowRenderer = useCallback(({index, key, style}) => {
+        const todo = todos[index];
+        return (
+            <TodoListItem
+                todo={todo}
+                key={key}
+                onRemove={onRemove}
+                onToggle={onToggle}
+                style={style} />
+        );
+    }, [onRemove, onToggle, todos]);
+
     console.log(todos)
     return (
-      <div className="TodoList">
-          {/*.map() 에서 오류 나는 거는 비동기로 들어와서 표기가 안되는거*/}
-          {todos && todos.map(todo => (
-              <TodoListItem todo={todo} key={todo.id} onRemove={onRemove} onToggle={onToggle}/>
-              ))}
-      </div>
+        <List
+            className="TodoList"
+            width={512}
+            height={513}
+            rowCount={todos.length}
+            rowHeight={57}
+            rowRenderer={rowRenderer}
+            list={todos}
+            style={{outline: 'none'}}
+            />
     );
 };
 
