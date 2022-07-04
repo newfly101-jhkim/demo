@@ -24,12 +24,16 @@ const App = () => {
     const [todos, setTodos] = useState(createBulkTodos);
 
     const onRemove = useCallback( id => {
-        setTodos(todos.filter(todo => todo.id !== id));
-    }, [todos]);
+        setTodos(todos => todos.filter(todo => todo.id !== id));
+    }, []);
 
     const onToggle = useCallback( id => {
-        setTodos(todos && todos.map(todo => todo.id === id ? {...todo, checked: !todo.checked} : todo),);
-    }, [todos]);
+        setTodos(todos =>
+            todos && todos.map(todo =>
+                todo.id === id ? {...todo, checked: !todo.checked} : todo
+            ),
+        );
+    }, []);
 
     console.log("todos :",todos);
 
@@ -41,9 +45,9 @@ const App = () => {
             text,
             checked: false
         };
-        setTodos(todos.concat(todo));
+        setTodos(todos => todos.concat(todo));
         nextId.current += 1;
-    }, [todos],
+    }, [],
     );
 
     return <TodoTemplate>
