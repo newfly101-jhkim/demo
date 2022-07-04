@@ -23,7 +23,7 @@ const TodoList = ({todos, onRemove, onToggle}) => {
             width={512}
             height={513}
             rowCount={todos.length}
-            rowHeight={57}
+            rowHeight={63}
             rowRenderer={rowRenderer}
             list={todos}
             style={{outline: 'none'}}
