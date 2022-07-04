@@ -1,5 +1,5 @@
-import React, {useCallback, useRef} from 'react';
-import { useState } from "react";
+import React, {useCallback, useReducer, useRef} from 'react';
+// import { useState } from "react";
 import TodoTemplate from "./Components/TodoTemplate";
 import TodoInsert from "./Components/TodoInsert";
 import TodoList from "./Components/TodoList";
@@ -16,39 +16,48 @@ function createBulkTodos() {
     return array;
 }
 
+function todoReducer(todos, action) {
+    switch (action.type) {
+        case 'INSERT' :
+            return todos.concat(action.todo);
+        case 'REMOVE' :
+            return todos.filter(todo => todo.id !== action.id);
+        case 'TOGGLE' :
+            return todos && todos.map(todo => todo.id === action.id ? {...todo, checked : !todo.checked} : todo,);
+        default:
+            return todos;
+    }
+}
+
 
 
 const App = () => {
-    // useState(createBulkTodos) => 다수의 데이터를 function으로 생성
-    // createBulkTodos() => re-render될때마다 호출 / createBulkTodos => 처음으로 렌더링 될 때만 호출
-    const [todos, setTodos] = useState(createBulkTodos);
+    const [todos, dispatch] = useReducer(todoReducer, undefined, createBulkTodos);
+
+
+    const onInsert = useCallback(text => {
+            const todo = {
+                id: nextId.current,
+                text,
+                checked: false
+            };
+            dispatch({type:'INSERT', todo});
+            nextId.current += 1;
+        }, [],
+    );
 
     const onRemove = useCallback( id => {
-        setTodos(todos => todos.filter(todo => todo.id !== id));
+        dispatch({type: 'REMOVE', id});
     }, []);
 
     const onToggle = useCallback( id => {
-        setTodos(todos =>
-            todos && todos.map(todo =>
-                todo.id === id ? {...todo, checked: !todo.checked} : todo
-            ),
-        );
+        dispatch({type: 'TOGGLE', id});
     }, []);
 
     console.log("todos :",todos);
 
     const nextId = useRef(4);
 
-    const onInsert = useCallback(text => {
-        const todo = {
-            id: nextId.current,
-            text,
-            checked: false
-        };
-        setTodos(todos => todos.concat(todo));
-        nextId.current += 1;
-    }, [],
-    );
 
     return <TodoTemplate>
         <TodoInsert onInsert={onInsert}/>
